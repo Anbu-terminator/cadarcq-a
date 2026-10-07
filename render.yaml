@@ -1,0 +1,20 @@
+# Render Blueprint - one Web Service serves BOTH the website and the API.
+services:
+  - type: web
+    name: cadarcq-website
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.12.0
+      - key: MONGODB_URI
+        sync: false        # you paste this in the Render dashboard (never commit it)
+      - key: MONGODB_DB
+        value: Cadarcq
+      - key: ADMINS_COLLECTION
+        value: Admins
+      - key: JWT_SECRET
+        generateValue: true  # Render creates a strong random secret for you
